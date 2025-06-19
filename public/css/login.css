@@ -1,0 +1,100 @@
+/* Paleta UQROO */
+:root {
+  --uqroo-green: #04874a;
+  --uqroo-green-dark: #036c39;
+  --uqroo-yellow: #f7d04b;
+  --uqroo-white: #ffffff;
+  --uqroo-gray-light: #f0f0f0;
+  --uqroo-gray-medium: #999999;
+}
+
+/* Fondo y texto modal */
+.custom-modal .modal-content {
+  background-color: var(--uqroo-white);
+  color: var(--uqroo-green-dark);
+  border-radius: 0.5rem;
+  border: 2px solid var(--uqroo-green);
+  box-shadow: 0 4px 15px rgba(4, 135, 74, 0.3);
+}
+
+/* Header del modal */
+.custom-modal .modal-header {
+  background-color: var(--uqroo-green);
+  color: var(--uqroo-white);
+  border-bottom: 2px solid var(--uqroo-yellow);
+  font-weight: 600;
+  font-size: 1.25rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+/* Botón cerrar (X) del modal */
+.custom-modal .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+/* Body del modal */
+.custom-modal .modal-body {
+  font-size: 1rem;
+  color: var(--uqroo-green-dark);
+  padding: 1.5rem;
+  background-color: var(--uqroo-gray-light);
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+/* Botones primarios personalizados */
+.btn-uqroo-primary {
+  background-color: var(--uqroo-green);
+  border: 2px solid var(--uqroo-green);
+  color: var(--uqroo-white);
+  font-weight: 600;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-uqroo-primary:hover,
+.btn-uqroo-primary:focus {
+  background-color: var(--uqroo-green-dark);
+  border-color: var(--uqroo-green-dark);
+  color: var(--uqroo-yellow);
+  box-shadow: 0 0 8px var(--uqroo-yellow);
+}
+
+/* Inputs y labels */
+.custom-modal label {
+  color: var(--uqroo-green-dark);
+  font-weight: 500;
+}
+
+.custom-modal input.form-control {
+  border: 1.5px solid var(--uqroo-green);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--uqroo-green-dark);
+  background-color: var(--uqroo-white);
+  transition: border-color 0.3s ease;
+}
+
+.custom-modal input.form-control:focus {
+  border-color: var(--uqroo-yellow);
+  box-shadow: 0 0 5px var(--uqroo-yellow);
+  outline: none;
+}
+
+/* Checkboxes */
+.custom-modal .form-check-label {
+  color: var(--uqroo-green-dark);
+}
+
+/* Texto pequeño y enlaces en modal */
+.custom-modal small,
+.custom-modal a {
+  color: var(--uqroo-green);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.custom-modal a:hover {
+  color: var(--uqroo-yellow);
+  text-decoration: underline;
+}

@@ -1,0 +1,260 @@
+/* ===============================
+   home.css — Estilos generales
+   =============================== */
+
+/* Paleta UQROO */
+:root {
+  --uqroo-green: #ffffff;
+  --uqroo-green-dark: #496c03;
+  --uqroo-yellow: #f7d04b;
+  --uqroo-white: #ffffff;
+  --uqroo-gray-light: #f0f0f0;
+  --uqroo-gray-medium: #999999;
+}
+
+/* Fondo personalizado para la sección principal */
+.main-hero {
+  background-image: url('/storage/images/fd.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 4rem 2rem;
+  border-radius: 12px;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===============================
+   Navbar
+   =============================== */
+.navbar {
+  background-color: var(--uqroo-white);
+  box-shadow: 0 2px 8px rgba(4, 135, 74, 0.1);
+  width: 100vw;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  /* Aumentar espacio vertical */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  /* Opcional: forzar altura mínima */
+  /* min-height: 70px; */
+}
+
+
+.navbar .container-fluid {
+  max-width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.nav-link {
+  color: var(--uqroo-green-dark);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--uqroo-green);
+  text-decoration: underline;
+}
+
+.nav-link.active {
+  color: var(--uqroo-green);
+  font-weight: 600;
+}
+
+.navbar-toggler-icon {
+  filter: invert(32%) sepia(69%) saturate(403%) hue-rotate(84deg) brightness(83%) contrast(86%);
+}
+
+/* ===============================
+   Tipografía general
+   =============================== */
+h1, h2, h3, h4 {
+  color: var(--uqroo-green-dark);
+  font-weight: 700;
+}
+
+p {
+  text-align: justify;
+  color: rgb(255, 255, 255);
+  font-size: 1.4rem;
+}
+
+a {
+  color: var(--uqroo-green);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--uqroo-yellow);
+  text-decoration: underline;
+}
+
+/* ===============================
+   Estilos del contenido principal
+   =============================== */
+.container {
+  color: var(--uqroo-green-dark);
+}
+
+/* ===============================
+   Estilos para logo y texto
+   =============================== */
+.logo-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Texto a la izquierda, logo a la derecha */
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.text-container {
+  flex: 1 1 60%;
+}
+
+.logo-container {
+  flex: 0 1 30%;
+  text-align: right;
+}
+
+.uqroo-logo {
+  max-height: 400px;
+  height: auto;
+  width: auto;
+}
+
+.text-container h1 {
+  margin: 0;
+  color: rgb(255, 255, 255);
+}
+
+.text-container p {
+  margin: 0.25rem 0 0;
+  color: rgb(255, 255, 255);
+}
+
+/* ===============================
+   Responsividad
+   =============================== */
+@media (max-width: 768px) {
+  .logo-text-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .text-container, .logo-container {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .logo-container {
+    margin-top: 1rem;
+  }
+}
+
+
+/* Fondo y borde para la sección Acerca de Nosotros */
+#about {
+  background-color: var(--uqroo-gray-light);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+#about p{
+  text-align: justify !important;
+}
+
+
+/* Centrar imagen dentro del card */
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 10px;
+  height: 250px; /* altura fija para que los cards tengan igual tamaño */
+}
+
+.centered-img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain; /* Ajusta imagen sin deformar */
+}
+
+/* Más espacio abajo para el texto principal */
+.logo-text-container .text-container p {
+  margin-bottom: 1rem;
+}
+
+
+/* Footer */
+
+.footer-container {
+  width: 100vw;
+  background-color: #1a1a1a; /* o el que uses */
+  color: white;
+  font-family: sans-serif;
+  left: 0;
+  margin-left: calc(-50vw + 50%);
+}
+
+.footer-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 30px 20px;
+}
+
+.footer-border {
+    border-bottom: 1px solid #fff;
+}
+
+.footer-block {
+    flex: 1 1 200px;
+    margin: 10px;
+    min-width: 200px;
+}
+
+.footer-block h5 {
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.footer-block p,
+.footer-block a {
+    margin: 5px 0;
+    color: #ccc;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer-social a {
+    color: #ccc;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.footer-social a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    background-color: #111;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
