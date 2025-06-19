@@ -1,0 +1,90 @@
+/* home.css */
+
+/* Paleta UQROO */
+:root {
+  --uqroo-verde: #2d6a4f;
+  --uqroo-verde-claro: #52b788;
+  --uqroo-verde-oscuro: #1b4332;
+  --uqroo-gris-claro: #f1f3f5;
+  --uqroo-gris-medio: #adb5bd;
+  --uqroo-gris-oscuro: #495057;
+
+  /* Dark mode colors */
+  --dark-bg: #121212;
+  --dark-sidebar-bg: #1e1e1e;
+  --dark-text: #e0e0e0;
+  --dark-accent: #4caf50;
+  --dark-hover: #388e3c;
+}
+/* Modo oscuro mejorado */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dark-bg: #181c22;            /* Gris muy oscuro, no negro puro */
+    --dark-sidebar-bg: #222831;    /* Fondo sidebar oscuro pero cálido */
+    --dark-text: #e4e6eb;          /* Texto claro, no blanco puro */
+    --dark-accent: #4caf50;        /* Verde acento */
+    --dark-hover: #3a9d23;         /* Verde hover */
+  }
+
+  body {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+  }
+  
+  main {
+    background-color: #2a2f3a;      /* Fondo main más oscuro, pero no negro */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .navbar {
+    background-color: var(--dark-sidebar-bg);
+    border-bottom-color: var(--dark-accent);
+  }
+  
+  .navbar-brand {
+    color: var(--dark-accent);
+  }
+  
+  .navbar-brand:hover {
+    color: var(--dark-hover);
+  }
+  
+  .sidebar {
+    background-color: var(--dark-sidebar-bg);
+  }
+  
+  .sidebar .nav-link {
+    color: var(--dark-text);
+  }
+  
+  .sidebar .nav-link.text-success,
+  .sidebar .nav-link:hover {
+    background-color: var(--dark-accent);
+    color: white !important;
+  }
+  
+  .sidebar button.nav-link.text-danger:hover {
+    background-color: #e06c75;
+  }
+  
+  .dropdown-menu {
+    background-color: var(--dark-sidebar-bg);
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+  }
+  
+  .dropdown-item:hover {
+    background-color: var(--dark-accent);
+    color: white;
+  }
+  
+  /* Scrollbar oscuro */
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background-color: var(--dark-accent);
+    border-radius: 10px;
+  }
+}

@@ -1,0 +1,65 @@
+/* Colores institucionales UQROO */
+:root {
+  --uqroo-green: #036c39;
+  --uqroo-yellow: #ffc107;
+  --uqroo-dark: #2e2e2e;
+  --uqroo-light: #f5f5f5;
+  --uqroo-border: #cdd5cb;
+}
+
+/* Tipografía general */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--uqroo-light);
+}
+
+/* Encabezados */
+h1, h2, h3, h4 {
+  color: var(--uqroo-green);
+  font-weight: 700;
+}
+
+/* Botón primario UQROO */
+.btn-uqroo-primary {
+  background-color: var(--uqroo-green);
+  color: white;
+  border: none;
+}
+
+.btn-uqroo-primary:hover {
+  background-color: #025a30;
+}
+
+/* Botón secundario UQROO */
+.btn-uqroo-secondary {
+  background-color: var(--uqroo-yellow);
+  color: black;
+}
+
+.btn-uqroo-secondary:hover {
+  background-color: #e6b300;
+}
+
+/* Tarjetas de dispositivos */
+.card {
+  border-radius: 12px;
+  border: 1px solid var(--uqroo-border);
+}
+
+.card-header.bg-uqroo-green {
+  background-color: var(--uqroo-green) !important;
+  color: white !important;
+}
+
+/* Charts en el dashboard */
+canvas {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+
+/* Textos adicionales */
+.text-uqroo-green {
+  color: var(--uqroo-green) !important;
+}
