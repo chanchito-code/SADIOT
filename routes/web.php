@@ -9,15 +9,13 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\SensorDashboardController;
 use App\Http\Controllers\SensorDataController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SensorInfoController;
 use App\Exports\SensorDataExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+// -------------------- Rutas públicas --------------------
 
-// ---------------------------------------------
-// 🟢 Rutas públicas
-// ---------------------------------------------
-
-// Registro y login
+// Autenticación
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
 
@@ -28,14 +26,13 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 // Página pública
 Route::view('/about', 'about')->name('about');
 
-// Endpoint público para la ESP32
+// Endpoint para ESP32
 Route::post('/api/sensor-data', [SensorDataController::class, 'store']);
 
-// ajax
+// AJAX para charts
 Route::get('/sensor/{sensor_uid}/data', [SensorController::class, 'ajaxData'])->name('sensor.data.ajax');
 
-
-// Excel
+// Exportaciones
 Route::get('/export/sensor/{sensor}', function($sensorId) {
     $fileName = "sensor_{$sensorId}_data.xlsx";
     return Excel::download(new SensorDataExport($sensorId), $fileName);
@@ -46,26 +43,35 @@ Route::get('/export/device/{esp32_id}', function($esp32Id) {
     return Excel::download(new \App\Exports\DeviceSensorsExport($esp32Id), $fileName);
 })->name('export.device')->middleware('auth');
 
+// Guía IoT unificada
+Route::get('/ejemplos', [SensorInfoController::class, 'catalogo'])->name('ejemplos.index');
 
-// ---------------------------------------------
-// 🔒 Rutas protegidas (requieren autenticación)
-// ---------------------------------------------
+// guias 
+Route::resource('sensores-info', SensorInfoController::class)
+    ->only(['index', 'store', 'update', 'destroy']);
+
+
+
+// -------------------- Rutas protegidas --------------------
 Route::middleware('auth')->group(function () {
 
-    // ✅ Ruta principal del dashboard
+    // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // 📦 CRUD de dispositivos (ESP32)
+    // Dispositivos
     Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
     Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
     Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
+    Route::resource('devices', DeviceController::class)->except(['show','edit','update']);
 
-    // 👤 Perfil de usuario
+    // Perfil
     Route::get('/perfil/edit', [PerfilController::class, 'edit'])->name('perfil.edit');
     Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
 
-    // 📊 Vista de sensores
+    // Sensores activos del usuario
     Route::get('/sensors', [SensorDashboardController::class, 'index'])->name('sensors.index');
 
-    Route::resource('devices', DeviceController::class)->except(['show','edit','update']);
+    // CRUD para admin (catálogo de sensores)
+    Route::resource('sensores-info', SensorInfoController::class)
+        ->only(['index','create','store','edit','update','destroy']);
 });

@@ -2,21 +2,25 @@
   --uqroo-green: #04874a;
   --uqroo-green-dark: #036c39;
   --uqroo-yellow: #f7d04b;
+  --uqroo-orange: #ffb347;
   --uqroo-white: #ffffff;
+  --uqroo-gray: #888888;
 }
 
 .btn-uqroo-primary {
-  background-color: var(--uqroo-green);
-  border: 2px solid var(--uqroo-green);
-  color: var(--uqroo-white);
-  font-weight: 600;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  background-color: var(--uqroo-yellow) !important;
+  border: 2px solid var(--uqroo-green-dark) !important;
+  color: var(--uqroo-gray) !important;
+  font-weight: 700 !important;
+  padding: 0.5rem 1.25rem !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.3s ease-in-out !important;
 }
 
 .btn-uqroo-primary:hover,
 .btn-uqroo-primary:focus {
-  background-color: var(--uqroo-green-dark);
-  border-color: var(--uqroo-green-dark);
-  color: var(--uqroo-yellow);
-  box-shadow: 0 0 8px var(--uqroo-yellow);
+  background-color: var(--uqroo-orange) !important;
+  border-color: var(--uqroo-green-dark) !important;
+  color: var(--uqroo-black) !important;
+  box-shadow: 0 0 10px rgb(134, 132, 132) !important;
 }
