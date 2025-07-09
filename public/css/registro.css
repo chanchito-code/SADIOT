@@ -1,6 +1,8 @@
 /* register.css */
 
-/* Paleta UQROO */
+/* ————————————————————————————
+   Paleta de colores UQROO
+   ———————————————————————————— */
 :root {
   --uqroo-green: #04874a;
   --uqroo-green-dark: #036c39;
@@ -10,90 +12,191 @@
   --uqroo-gray-medium: #999999;
 }
 
-/* General container */
+/* ————————————————————————————
+   Reset / Altura completa
+   ———————————————————————————— */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ————————————————————————————
+   Fondo general (cubre toda la pantalla)
+   ———————————————————————————— */
+body {
+  background-image: url('/images/fondo_rg.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* ————————————————————————————
+   Layout: dos columnas en md+
+   ———————————————————————————— */
+.row-register {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 80vh;
+}
+
+/* Imagen de fondo en columna izquierda */
+.col-img {
+  flex: 0 0 100%;
+  max-width: 100%;
+  height: 300px; /* altura mínima en móvil */
+  background-image: url('/images/fondo_rg.avif');
+  background-size: cover;
+  background-position: center;
+}
+
+@media (min-width: 768px) {
+  .col-img {
+    flex: 0 0 50%;
+    max-width: 50%;
+    height: auto;
+  }
+}
+
+/* Columna del formulario */
+.col-form {
+  flex: 0 0 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255,255,255,0.9);
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .col-form {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 2rem;
+  }
+}
+
+/* ————————————————————————————
+   Container central (tarjeta)
+   ———————————————————————————— */
 .container {
-    margin-top: 60px; /* Si sientes que está muy separado, puedes ajustar este valor */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-/* Card */
+/* Card wrapper transparente (solo sombra) */
 .card {
-    width: 100%;
-    max-width: 600px; /* Para un contenedor más amplio, aumenta este valor */
-    min-height: 500px;
-    background-color: var(--uqroo-white);
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
+  border: none;
+  background: transparent;
 }
 
-/* Card Header */
+/* ————————————————————————————
+   Card Header
+   ———————————————————————————— */
 .card-header {
-    background-color: var(--uqroo-green) !important;
-    color: var(--uqroo-white);
-    padding: 20px 15px;
-    text-align: center;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+  background-color: var(--uqroo-green) !important;
+  color: var(--uqroo-white);
+  padding: 20px 15px;
+  text-align: center;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
 .card-header h4 {
-    margin-bottom: 5px;
-    font-weight: bold;
+  margin: 0 0 5px;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .card-header small {
-    font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
-/* Form labels */
+/* ————————————————————————————
+   Card Body
+   ———————————————————————————— */
+.card-body {
+  background-color: var(--uqroo-white);
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  padding: 20px 15px;
+}
+
+/* ————————————————————————————
+   Form Labels
+   ———————————————————————————— */
 .form-label {
-    font-weight: 500;
-    color: var(--uqroo-green-dark);
+  display: block;
+  font-weight: 500;
+  color: var(--uqroo-green-dark);
+  margin-bottom: 5px;
 }
 
-/* Form inputs */
+/* ————————————————————————————
+   Form Inputs
+   ———————————————————————————— */
 .form-control {
-    border-radius: 0.375rem;
-    border: 1.5px solid var(--uqroo-green);
-    background-color: var(--uqroo-white);
-    color: var(--uqroo-green-dark);
-    padding: 0.5rem 0.75rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1.5px solid var(--uqroo-green);
+  background-color: var(--uqroo-white);
+  color: var(--uqroo-green-dark);
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-control:focus {
-    border-color: var(--uqroo-yellow);
-    box-shadow: 0 0 0 0.15rem rgba(4, 135, 74, 0.25);
-    outline: none;
+  border-color: var(--uqroo-yellow);
+  box-shadow: 0 0 0 0.15rem rgba(4, 135, 74, 0.25);
+  outline: none;
 }
 
-/* Error text */
+/* ————————————————————————————
+   Error Text
+   ———————————————————————————— */
 .text-danger.small {
-    margin-top: 5px;
-    font-size: 0.85rem;
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
 }
 
-/* Submit Button */
+/* ————————————————————————————
+   Botón de Submit
+   ———————————————————————————— */
 #register-btn {
-    background-color: var(--uqroo-green);
-    color: var(--uqroo-white);
-    font-weight: 600;
-    border: 2px solid var(--uqroo-green);
-    border-radius: 0.375rem;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  background-color: var(--uqroo-green);
+  color: var(--uqroo-white);
+  font-weight: 600;
+  border: 2px solid var(--uqroo-green);
+  border-radius: 0.375rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 #register-btn:hover {
-    background-color: var(--uqroo-green-dark);
-    border-color: var(--uqroo-green-dark);
+  background-color: var(--uqroo-green-dark);
+  border-color: var(--uqroo-green-dark);
 }
 
-/* Responsive */
+/* ————————————————————————————
+   Responsive tweaks
+   ———————————————————————————— */
 @media (max-width: 576px) {
-    .container {
-        padding: 0 15px;
-    }
+  body {
+    padding: 10px;
+  }
+  .card-body {
+    padding: 15px;
+  }
 }

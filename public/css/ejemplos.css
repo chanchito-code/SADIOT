@@ -1,0 +1,41 @@
+/* guía-iot.css */
+.container {
+  max-width: 800px;
+}
+
+h2 {
+  color: #04874a;
+  font-weight: 700;
+}
+
+h4 {
+  color: #036c39;
+  margin-top: 1.5rem;
+}
+
+section p,
+section ul,
+section ol {
+  line-height: 1.6;
+}
+
+pre {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid #ddd;
+}
+
+code {
+  font-family: monospace;
+}
+
+a {
+  color: #f7d04b;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #ffb347;
+}

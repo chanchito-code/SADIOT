@@ -7,9 +7,6 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
       <ul class="navbar-nav align-items-center">
-        <li class="nav-item me-3">
-          <a href="{{ route('devices.create') }}" class="btn btn-success btn-sm">+ Registrar ESP32</a>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-person-circle fs-4 me-1 text-success"></i> {{ auth()->user()->username ?? 'Usuario' }}

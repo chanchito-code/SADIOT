@@ -1,4 +1,3 @@
-<!-- resources/views/layouts/register.blade.php -->
 @extends('layouts.app')
 
 @section('title', 'Registro de Usuario')
@@ -46,6 +45,12 @@
                 </div>
 
                 <button type="submit" class="btn btn-success w-100" id="register-btn">Registrar</button>
+                 <!-- Botón Cancelar -->
+                    <a href="{{ url()->previous() }}"
+                    class="btn btn-outline-secondary w-100 mt-2"
+                    role="button">
+                    Cancelar
+                    </a>
             </form>
         </div>
     </div>

@@ -4,7 +4,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
-<div class="container mt-4">
+<div class="container mt-2">
   @foreach($devices as $device)
   <div class="card mb-3">
     <div 
