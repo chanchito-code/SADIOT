@@ -30,6 +30,6 @@ class RegisterController extends Controller
 
         auth()->login($user);
 
-        return redirect('sensors.index'); // o a donde quieras
+        return redirect()->route('sensors.index'); // Redirige a la ruta con nombre sensors.index
     }
 }

@@ -1,32 +1,41 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 
 @section('title', 'Inicio')
 
     {{-- Navbar --}}
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm w-100">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav" aria-controls="navbarNav"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">Registro</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Acerca de Nosotros</a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm w-100">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {{-- Eslogan animado --}}
+        <div class="animated-tagline-navbar ms-1 me-auto">
+            <span class="slogan-button" data-text="Donde hay un sensor, hay una variable que puede ser medida.">
+                <span class="actual-text">&nbsp;Donde hay un sensor, hay una variable que puede ser medida.&nbsp;</span>
+                <span aria-hidden="true" class="hover-text">&nbsp;Donde hay un sensor, hay una variable que puede ser medida.&nbsp;</span>
+            </span>
         </div>
-    </nav>
+
+        {{-- Menú --}}
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">Registro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">Acerca de Nosotros</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 
 
 
@@ -40,11 +49,11 @@
     <div class="container mt-2 mb-2 main-hero">
         <div class="logo-text-container">
             <div class="text-container">
-                <h1 class="mb-4">Bienvenido a SADIoT</h1>
+                <h1 class="mb-4" style="color: white;">Bienvenido a SADIoT</h1>
                 <p>
-                    En SADIoT nos dedicamos a brindar soluciones innovadoras mediante la integración de sensores inteligentes que te permiten monitorear y adquirir información vital para distintos entornos y aplicaciones.
-                    Nuestra plataforma está diseñada para facilitar la recolección y visualización de datos de manera eficiente y sencilla, combinando tecnología IoT con una interfaz amigable para el usuario.
-                    Ya sea para proyectos educativos, industriales o personales, SADIoT ofrece una experiencia completa para que puedas sacar el máximo provecho de los sensores conectados a tu entorno.
+                    El Sistema de Adquisición de Datos para Internet de las Cosas (SADIoT) ha sido diseñado como una plataforma integral que permite a docentes, investigadores, estudiantes y desarrolladores realizar mediciones de diversas variables en proyectos experimentales o de investigación. Su diseño facilita el registro continuo de datos durante intervalos definidos, así como su posterior análisis, mediante herramientas de visualización intuitivas y eficientes. SADIoT busca optimizar el proceso de captura y gestión de información en entornos relacionados con el Internet de las Cosas, promoviendo la precisión, escalabilidad y accesibilidad en la toma de decisiones basadas en datos.
+                    El sistema se fundamenta en el uso de la tarjeta ESP32 de Espressif Systems, la cual proporciona conectividad a la nube mediante WiFi. La arquitectura de la aplicación web permite la integración de múltiples dispositivos ESP32. Una vez realizado el enlace la aplicación tiene la capacidad para detectar e identificar automáticamente los sensores conectados a sus puertos.
+                    La cantidad de sensores disponibles por dispositivo está condicionada solamente por el número de pines GPIO utilizables en la tarjeta, no por la aplicación. La visualización de los datos de cualquier sensor conectado se habilita mediante la incorporación de su respectiva rutina en el código fuente del firmware. Las variables que se transmiten a la nube se encuentran previamente definidas en la estructura del sistema, lo que facilita su procesamiento y monitoreo remoto.
                 </p>
             </div>
             <div class="logo-container">
@@ -64,11 +73,12 @@
             <div class="col-md-5 mb-4">
                 <div class="card shadow-sm">
                     <div class="img-container">
-                        <img src="{{ asset('storage/images/user1.png') }}" alt="Desarrollador 1" class="card-img-top centered-img">
+                        <img src="{{ asset('storage/images/yomerengues.jpg') }}" alt="Desarrollador 1" class="card-img-top centered-img">
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title">MTRO. Jesús Orifiel Álvarez Ruiz</h5>
-                        <h4 class="card-text text-muted">Desarrollador</p>
+                        <h4 class="card-title">M.M. Jesús Orifiel Alvarez Ruiz </h4>
+                        <h5 class="card-text text-muted">•	Director del proyecto especializado en el área de mecatrónica e Internet de las cosas.</p>
+                        <h5 class="card-text text-muted">•	Profesor de la Universidad de Quintana Roo (UQROO)</p>
                     </div>
                 </div>
             </div>
@@ -78,8 +88,9 @@
                         <img src="{{ asset('storage/images/user2.png') }}" alt="Desarrollador 2" class="card-img-top centered-img">
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title">Jose Luis Chavez Zetina</h5>
-                        <h4 class="card-text text-muted">Desarrollador</p>
+                        <h4 class="card-title">Jose Luis Chavez Zetina</h4>
+                        <h5 class="card-text text-muted">•Desarrollador de la aplicación web.</p>
+                        <h5 class="card-text text-muted">Estudiante de la carrera de tecnologías de la información de la Universidad Tecnológica de Chetumal (UTCHE)</p>
                     </div>
                 </div>
             </div>

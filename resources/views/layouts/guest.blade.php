@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@yield('title', 'SADIoT')</title>
-
-    {{-- Aquí cargas Bootstrap o Tailwind, y tus CSS personalizados --}}
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet" />
-     <link href="{{ asset('css/home.css') }}" rel="stylesheet" />
-    
-    
-    {{-- Si en tu home cargas CSS específicos dentro de la vista, pon esto para que se pueda agregar --}}
-    @stack('styles')
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@yield('title', 'SADIOT')</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  @stack('head')
 </head>
-<body>
-    {{-- Contenido de cada página --}}
+<body class="bg-light d-flex flex-column" style="min-height:100vh;">
+
+  <div class="container py-5 flex-grow-1">
     @yield('content')
+  </div>
 
-    {{-- Scripts comunes --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  @hasSection('footer')
+    @yield('footer')
+  @endif
 
-    {{-- Scripts específicos por página --}}
-    @stack('scripts')
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  @stack('scripts')
 </body>
 </html>

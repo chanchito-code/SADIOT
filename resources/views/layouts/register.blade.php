@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 
 @section('title', 'Registro de Usuario')
 
@@ -12,7 +12,7 @@
             <small>Acceso al sistema educativo universitario</small>
         </div>
         <div class="card-body">
-            <form action="{{ route('register') }}" method="POST">
+            <form action="{{ route('register') }}" method="POST" id="register-form">
                 @csrf
 
                 <div class="mb-3">
@@ -45,14 +45,40 @@
                 </div>
 
                 <button type="submit" class="btn btn-success w-100" id="register-btn">Registrar</button>
-                 <!-- Botón Cancelar -->
-                    <a href="{{ url()->previous() }}"
-                    class="btn btn-outline-secondary w-100 mt-2"
-                    role="button">
-                    Cancelar
-                    </a>
+
+                <!-- Botón Cancelar corregido -->
+                <a href="{{ route('about') }}"
+                   class="btn btn-outline-secondary w-100 mt-2"
+                   role="button">
+                   Cancelar
+                </a>
             </form>
         </div>
     </div>
 </div>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.getElementById('register-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // prevenimos envío inmediato
+
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "¿Deseas registrarte con estos datos?",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, registrar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Enviar el formulario si confirma
+      event.target.submit();
+    }
+  });
+});
+</script>
+
 @endsection

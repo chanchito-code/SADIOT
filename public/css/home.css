@@ -1,3 +1,6 @@
+ayudame a hacerlo responsive, sin modificar nada
+
+
 /* ===============================
    home.css — Estilos generales
    =============================== */
@@ -36,13 +39,9 @@
   left: 0;
   right: 0;
   z-index: 1030;
-  /* Aumentar espacio vertical */
   padding-top: 1rem;
   padding-bottom: 1rem;
-  /* Opcional: forzar altura mínima */
-  /* min-height: 70px; */
 }
-
 
 .navbar .container-fluid {
   max-width: 100%;
@@ -101,6 +100,7 @@ a:hover {
    =============================== */
 .container {
   color: var(--uqroo-green-dark);
+  padding: 1rem;
 }
 
 /* ===============================
@@ -109,7 +109,7 @@ a:hover {
 .logo-text-container {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Texto a la izquierda, logo a la derecha */
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem 0;
@@ -158,20 +158,69 @@ a:hover {
   .logo-container {
     margin-top: 1rem;
   }
-}
 
+  .animated-tagline-navbar {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 0 0.5rem;
+  }
+
+  .slogan-button {
+    --fs-size: 0.75rem;
+    font-size: 0.75rem;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .slogan-button .actual-text,
+  .slogan-button .hover-text {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    padding: 0 0.25rem;
+  }
+
+  .navbar .container-fluid {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-toggler {
+    align-self: flex-end;
+  }
+
+  .navbar-nav {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-collapse {
+    justify-content: center;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  h1, h2 {
+    font-size: 1.5rem;
+  }
+}
 
 /* Fondo y borde para la sección Acerca de Nosotros */
 #about {
   background-color: var(--uqroo-gray-light);
   border: 1px solid #ccc;
   border-radius: 8px;
+  padding: 1rem;
 }
 
-#about p{
+#about p {
   text-align: justify !important;
+  color: #333;
 }
-
 
 /* Centrar imagen dentro del card */
 .img-container {
@@ -180,26 +229,23 @@ a:hover {
   align-items: center;
   overflow: hidden;
   padding: 10px;
-  height: 250px; /* altura fija para que los cards tengan igual tamaño */
+  height: 250px;
 }
 
 .centered-img {
   max-height: 100%;
   max-width: 100%;
-  object-fit: contain; /* Ajusta imagen sin deformar */
+  object-fit: contain;
 }
 
-/* Más espacio abajo para el texto principal */
 .logo-text-container .text-container p {
   margin-bottom: 1rem;
 }
 
-
 /* Footer */
-
 .footer-container {
   width: 100vw;
-  background-color: #1a1a1a; /* o el que uses */
+  background-color: #1a1a1a;
   color: white;
   font-family: sans-serif;
   left: 0;
@@ -207,54 +253,98 @@ a:hover {
 }
 
 .footer-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 30px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 30px 20px;
 }
 
 .footer-border {
-    border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #fff;
 }
 
 .footer-block {
-    flex: 1 1 200px;
-    margin: 10px;
-    min-width: 200px;
+  flex: 1 1 200px;
+  margin: 10px;
+  min-width: 200px;
 }
 
 .footer-block h5 {
-    margin-bottom: 10px;
-    color: #fff;
+  margin-bottom: 10px;
+  color: #fff;
 }
 
 .footer-block p,
 .footer-block a {
-    margin: 5px 0;
-    color: #ccc;
-    font-size: 0.95rem;
-    text-decoration: none;
+  margin: 5px 0;
+  color: #ccc;
+  font-size: 0.95rem;
+  text-decoration: none;
 }
 
 .footer-link:hover {
-    color: #fff;
-    text-decoration: underline;
+  color: #fff;
+  text-decoration: underline;
 }
 
 .footer-social a {
-    color: #ccc;
-    margin-right: 10px;
-    font-size: 1.2rem;
+  color: #ccc;
+  margin-right: 10px;
+  font-size: 1.2rem;
 }
 
 .footer-social a:hover {
-    color: #fff;
+  color: #fff;
 }
 
 .footer-bottom {
-    background-color: #111;
-    text-align: center;
-    padding: 15px;
-    font-size: 0.9rem;
-    color: #aaa;
+  background-color: #111;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* === Eslogan animado dentro de la navbar === */
+.animated-tagline-navbar {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.slogan-button {
+  --border-right: 3px;
+  --text-stroke-color: rgba(0, 0, 0, 0.4);
+  --animation-color: #458d41;
+  --fs-size: 1rem;
+
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: "Arial", sans-serif;
+  position: relative;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+  text-transform: uppercase;
+  cursor: default;
+}
+
+.slogan-button .hover-text {
+  position: absolute;
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.6s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+
+.slogan-button:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 4px var(--animation-color));
 }
