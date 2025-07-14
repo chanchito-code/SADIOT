@@ -3,7 +3,32 @@
 @section('title', '📊 Mis Dispositivos')
 
 @section('content')
-<h1>Botones Accion Corte </h1>
+
+@if ($errors->any())
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+
+<form action="{{ route('sensor.datos_por_dia.general') }}" method="GET" 
+  class="mb-4 d-flex flex-wrap align-items-center gap-2">
+  <label for="device" class="form-label mb-0 flex-shrink-0">Selecciona dispositivo (ESP32):</label>
+  <select name="device" id="device" class="form-select w-auto flex-grow-1" required style="min-width: 200px;">
+    <option value="" disabled selected>-- Elige una placa --</option>
+    @foreach ($devices as $device)
+      <option value="{{ $device->esp32_id }}">{{ $device->esp32_id }} {{ $device->nombre ? '- '.$device->nombre : '' }}</option>
+    @endforeach
+  </select>
+
+  <button type="submit" class="btn btn-warning flex-shrink-0">
+    <i class="bi bi-calendar-day"></i> Corte Diario General
+  </button>
+</form>
+
 <div class="container-fluid mt-4 px-3 px-md-0">
   @if ($devices->isEmpty())
     <div class="alert alert-warning text-center">
@@ -27,17 +52,21 @@
           <div class="d-flex align-items-center">
             <small class="me-2">Registrado: {{ $device->created_at->format('d M Y, H:i') }}</small>
 
-            <!-- Botón exportar todos los sensores del dispositivo -->
+            {{-- Botón para exportar todos los sensores de este dispositivo --}}
             <a href="{{ route('export.device', $device->esp32_id) }}"
               class="btn btn-sm btn-light me-2"
               onclick="event.stopPropagation();"
-              title="Exportar todos los sensores de este dispositivo">
+              title="Exportar todos los sensores de este dispositivo"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i class="bi bi-file-earmark-excel"></i>
             </a>
 
             <i class="bi bi-chevron-down transition-transform" id="icon-device-{{ $device->esp32_id }}"></i>
           </div>
         </div>
+
         <div id="collapse-device-{{ $device->esp32_id }}" class="collapse show">
           <div class="card-body">
             @if($device->sensors->isEmpty())
@@ -49,44 +78,31 @@
                     <div class="card h-100">
                       <div
                         class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
-                        style="cursor: default;">
+                        style="cursor: default;"
+                      >
                         <span>
                           {{ ucfirst($sensor->tipo) }} <small>({{ $sensor->sensor_uid }})</small>
                         </span>
 
-                        <!-- Botón exportar sensor individual -->
+                        {{-- Botón para exportar datos individuales del sensor --}}
                         <a href="{{ route('export.sensor', $sensor->sensor_uid) }}"
-                          class="btn btn-sm btn-outline-light"
+                          class="btn btn-sm btn-light"
+                          title="Exportar datos de este sensor"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           onclick="event.stopPropagation();"
-                          title="Exportar datos del sensor a Excel">
-                          <i class="bi bi-file-earmark-spreadsheet"></i>
+                        >
+                          <i class="bi bi-file-earmark-excel"></i>
                         </a>
                       </div>
 
-                      {{-- Contenido AJAX para datos y paginación --}}
-                      <div id="sensor-data-{{ $sensor->sensor_uid }}" class="sensor-data-container">
-                        <ul class="list-group list-group-flush">
-                          @forelse ($sensor->data()->orderBy('timestamp', 'desc')->paginate(5) as $dato)
-                            <li class="list-group-item d-flex justify-content-between">
-                              <span><i class="bi bi-clock"></i>
-                                {{ \Carbon\Carbon::parse($dato->timestamp)->format('H:i:s d M') }}
-                              </span>
-                              <span class="fw-bold">{{ $dato->valor }}</span>
-                            </li>
-                          @empty
-                            <li class="list-group-item text-muted">Sin lecturas</li>
-                          @endforelse
-                        </ul>
+                      @php
+                        $pageName = 'page_' . $device->esp32_id . '_' . $sensor->sensor_uid;
+                        $datos = $sensor->data()->orderBy('timestamp', 'desc')->paginate(5, ['*'], $pageName);
+                      @endphp
 
-                        <div class="mt-2 px-3">
-                          <nav aria-label="Paginación de sensor {{ $sensor->sensor_uid }}">
-                            {{ $sensor->data()
-                                ->orderBy('timestamp', 'desc')
-                                ->paginate(5)
-                                ->onEachSide(1)
-                                ->links('pagination::bootstrap-5') }}
-                          </nav>
-                        </div>
+                      <div id="sensor-data-{{ $sensor->sensor_uid }}" class="sensor-data-container">
+                        @include('partials.sensor_data_pagination', compact('sensor', 'datos'))
                       </div>
                     </div>
                   </div>
@@ -118,7 +134,6 @@
 @push('scripts')
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Toggle para dispositivos (sidebar)
     @foreach ($devices as $device)
       const collapseDev{{ $device->esp32_id }} = document.getElementById('collapse-device-{{ $device->esp32_id }}');
       const iconDev{{ $device->esp32_id }} = document.getElementById('icon-device-{{ $device->esp32_id }}');
@@ -129,32 +144,23 @@
         iconDev{{ $device->esp32_id }}.classList.add('rotate-180'));
     @endforeach
 
-    // Interceptar clicks en paginación de datos de sensores y cargar con AJAX
+    // AJAX paginación individual por sensor
     document.querySelectorAll('.sensor-data-container').forEach(container => {
       container.addEventListener('click', function(event) {
         const target = event.target;
 
-        if(target.tagName === 'A' && target.closest('nav')) {
+        if (target.tagName === 'A' && target.closest('nav')) {
           event.preventDefault();
-          const url = target.getAttribute('href');
-          if(!url) return;
 
-          // Extraemos sensor UID del id del contenedor
-          const sensorUid = container.id.replace('sensor-data-', '');
+          const url = target.getAttribute('href');
+          if (!url) return;
 
           fetch(url, {
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
           })
           .then(response => response.text())
           .then(html => {
-            // Reemplazamos el contenido con la respuesta parcial
-            container.outerHTML = html;
-
-            // Reasignar eventos de paginación al nuevo contenido
-            const newContainer = document.getElementById('sensor-data-' + sensorUid);
-            if (newContainer) {
-              newContainer.addEventListener('click', arguments.callee);
-            }
+            container.innerHTML = html;
           })
           .catch(err => console.error('Error al cargar paginación AJAX:', err));
         }

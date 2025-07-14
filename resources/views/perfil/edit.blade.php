@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left"></i> Volver
                     </a>
                     <button type="submit" class="btn-uqroo-primary">

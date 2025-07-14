@@ -59,7 +59,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const charts = {};
 
-  // Paleta extendida de colores UQROO-friendly
   const colorPalette = [
     '#036c39', '#04874a', '#70b376', '#a1c9a7', '#d0e2cc',
     '#f7d04b', '#ffc107', '#ff5722', '#f44336', '#e91e63',
@@ -74,10 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById('chart-' + sensorId)?.getContext('2d');
         if (!ctx) return;
 
-        const valores = {!! $sensor->data->pluck('valor')->toJson() !!};
-        const etiquetas = {!! $sensor->data->pluck('timestamp')->map(function($t) {
-          return \Carbon\Carbon::parse($t)->format('H:i:s');
-        })->values()->toJson() !!};
+        @php
+          $valores = $sensor->data->pluck('valor')->toArray();
+          $etiquetas = $sensor->data->pluck('timestamp')->map(fn($t) => \Carbon\Carbon::parse($t)->format('H:i:s'))->values()->toArray();
+        @endphp
+
+        const rawValores = @json($valores);
+        const rawEtiquetas = @json($etiquetas);
 
         function getColors(count) {
           let result = [];
@@ -92,6 +94,23 @@ document.addEventListener('DOMContentLoaded', () => {
             charts[sensorId].destroy();
           }
 
+          let valores = [...rawValores];
+          let etiquetas = [...rawEtiquetas];
+
+          if (tipo === 'pie') {
+            const agrupado = {};
+            valores.forEach(v => {
+              agrupado[v] = (agrupado[v] || 0) + 1;
+            });
+            etiquetas = Object.keys(agrupado);
+            valores = Object.values(agrupado);
+          }
+
+          if (tipo === 'bar') {
+            valores = valores.slice(-10);
+            etiquetas = etiquetas.slice(-10);
+          }
+
           let backgroundColors = getColors(valores.length);
 
           let config = {
@@ -99,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data: {
               labels: etiquetas,
               datasets: [{
-                label: '{{ ucfirst($sensor->tipo) }}',
+                label: tipo === 'pie' ? 'Distribución de valores' : '{{ ucfirst($sensor->tipo) }}',
                 data: valores,
                 borderColor: tipo === 'line' ? '#036c39' : backgroundColors,
                 backgroundColor: tipo === 'pie' || tipo === 'bar' ? backgroundColors : 'transparent',
@@ -113,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
               maintainAspectRatio: false,
               plugins: {
                 legend: {
-                  display: tipo !== 'line', // Muestra leyenda solo en pastel o barras
+                  display: tipo !== 'line',
                   position: 'bottom'
                 }
               },
@@ -152,4 +171,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 @endpush
-

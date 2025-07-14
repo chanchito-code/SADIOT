@@ -79,4 +79,17 @@ Route::middleware('auth')->group(function () {
     // CRUD para admin (catálogo de sensores)
     Route::resource('sensores-info', SensorInfoController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-});
+
+    // Corte de datos general por dispositivo (todos los sensores)
+    Route::get('/datos-por-dia/general', [SensorController::class, 'datosPorDiaGeneral'])
+        ->name('sensor.datos_por_dia.general');
+
+    
+    });
+
+
+
+
+// AJAX
+
+Route::get('/sensor/{sensor_uid}/data', [SensorController::class, 'ajaxData'])->name('sensor.data.ajax');
