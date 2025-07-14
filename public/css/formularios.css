@@ -1,0 +1,107 @@
+/* Estilo institucional elegante para formularios UQROO */
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #15ad4b, #fff); /* suave, claro y profesional */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #333;
+}
+
+.container {
+  padding-top: rem !important;
+  padding-bottom: 2rem !important;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: none !important;
+  max-width: 640px; /* Aumentado para mayor ancho */
+  width: 500px;
+  margin: auto;
+  padding: 2rem; /* más espacio interior */
+}
+
+.card-header {
+  background-color: #04874a !important; /* verde institucional */
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+.card-header small {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+.form-label {
+  color: #155d27; /* verde más oscuro y elegante */
+  font-weight: 600;
+}
+
+.form-control {
+  background: #f6f9f6 !important;
+  color: #333 !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+  font-size: 1.05rem;
+}
+
+.form-control:focus {
+  outline: none !important;
+  border-color: #f7d04b !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 3px rgba(247,208,75,0.4);
+}
+
+.btn-success {
+  background-color: #04874a !important;
+  border: none !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 14px 0;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(4, 135, 74, 0.4);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background-color: #036c39 !important;
+  box-shadow: 0 6px 18px rgba(3, 108, 57, 0.6);
+  outline: none !important;
+}
+
+.text-danger {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .card {
+    max-width: 100% !important;
+    margin: 0 1rem;
+    padding: 1.5rem;
+  }
+
+  .card-header {
+    font-size: 1.2rem;
+  }
+}

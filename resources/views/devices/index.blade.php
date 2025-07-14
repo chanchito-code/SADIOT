@@ -36,7 +36,9 @@
         <tr>
           <td>{{ $d->esp32_id }}</td>
           <td>{{ $d->nombre }}</td>
-          <td>{{ $d->created_at->format('d/M/Y H:i') }}</td>
+          <td>
+            <span class="device-date" data-date="{{ $d->created_at->toIso8601String() }}"></span>
+          </td>
           <td>
             <form action="{{ route('devices.destroy', $d) }}" method="POST" class="delete-form">
               @csrf @method('DELETE')
@@ -89,6 +91,23 @@
           if (result.isConfirmed) {
             form.submit();
           }
+        });
+      });
+    });
+  </script>
+
+  {{-- Script para convertir y mostrar fechas en la zona horaria local --}}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.device-date').forEach(el => {
+        const utcDateStr = el.getAttribute('data-date');
+        const dateObj = new Date(utcDateStr);
+        el.textContent = dateObj.toLocaleString(undefined, {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
         });
       });
     });

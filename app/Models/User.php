@@ -5,13 +5,14 @@ namespace App\Models;
 use MongoDB\Laravel\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\MustVerifyEmail;               // IMPORTANTE
+use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;  // IMPORTANTE
 use Illuminate\Notifications\Notifiable;
 
-class User extends Model implements AuthenticatableContract
+class User extends Model implements AuthenticatableContract, MustVerifyEmail
 {
-    use Authenticatable, Notifiable;
+    use Authenticatable, Notifiable, MustVerifyEmailTrait;
 
-    // Configuración de conexión
     protected $connection = 'mongodb';
     protected $collection = 'users';
 
@@ -19,6 +20,7 @@ class User extends Model implements AuthenticatableContract
         'username',
         'email',
         'password',
+        'email_verified_at',   // campo para fecha de verificación
     ];
 
     protected $hidden = [

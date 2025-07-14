@@ -23,10 +23,7 @@
     outline: none;
     box-shadow: 0 0 0 4px rgba(28, 116, 48, 0.4);
   }
-
 </style>
-
-
 
 <div class="container mt-2">
     <h2>➕ Registrar nuevo dispositivo</h2>
@@ -49,22 +46,7 @@
     <form action="{{ route('devices.store') }}" method="POST" class="card shadow p-4">
         @csrf
 
-        <div class="mb-3">
-            <label for="esp32_id" class="form-label fw-bold">ID del dispositivo ESP32</label>
-            <input 
-                type="text" 
-                name="esp32_id" 
-                id="esp32_id" 
-                class="form-control @error('esp32_id') is-invalid @enderror" 
-                value="{{ old('esp32_id') }}" 
-                placeholder="Ej. ESP32-001" 
-                required
-            >
-            <div class="form-text">Este ID debe coincidir con el que tu ESP32 envía.</div>
-            @error('esp32_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+        <!-- Eliminamos input de esp32_id, será generado automáticamente -->
 
         <div class="mb-3">
             <label for="nombre" class="form-label fw-bold">Nombre o ubicación del dispositivo</label>
@@ -85,9 +67,8 @@
         <div class="d-flex justify-content-between">
             <a href="{{ route('devices.index') }}" class="btn btn-outline-secondary">Cancelar</a>
             <button type="submit" class="btn btn-uqroo-primary btn-lg rounded-1 btn-animated px-2 py-1">
-            <i class="bi bi-check-circle-fill me-1"></i> Registrar dispositivo
+                <i class="bi bi-check-circle-fill me-1"></i> Registrar dispositivo
             </button>
-
         </div>
     </form>
 </div>
