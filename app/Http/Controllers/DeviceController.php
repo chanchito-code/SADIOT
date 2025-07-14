@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Device;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class DeviceController extends Controller
 {
@@ -23,12 +24,11 @@ class DeviceController extends Controller
     public function store(Request $req)
     {
         $req->validate([
-            'esp32_id' => 'required|string|unique:devices,esp32_id',
             'nombre'   => 'nullable|string|max:255',
         ]);
 
         Device::create([
-            'esp32_id' => $req->esp32_id,
+            'esp32_id' => Str::uuid()->toString(), // Genera UUID automáticamente
             'nombre'   => $req->nombre,
             'user_id'  => Auth::id(),
         ]);

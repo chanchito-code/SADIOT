@@ -11,7 +11,7 @@ class Sensor extends Model
 
     public function data()
     {
-        return $this->hasMany(SensorData::class, 'sensor_uid', 'sensor_uid');
+        return $this->hasMany(SensorData::class, 'sensor_id', '_id');
     }
 
     public function device()

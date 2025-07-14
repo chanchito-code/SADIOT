@@ -58,6 +58,7 @@
             </div>
             <div class="logo-container">
                 <img src="{{ asset('storage/images/f_b.png') }}" alt="Logo UQROO" class="uqroo-logo">
+                <img src="{{ asset('storage/images/logoOficial.png') }}" alt="Logo UQROO" class="uqroo-logo">
             </div>
         </div>
     </div>

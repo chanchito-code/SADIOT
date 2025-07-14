@@ -15,10 +15,17 @@ use Maatwebsite\Excel\Facades\Excel;
 
 // -------------------- Rutas públicas --------------------
 
-// Autenticación
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
+// Registro en 3 pasos: email, código, perfil
+Route::get('register', [RegisterController::class, 'showEmailForm'])->name('register');  // Paso 1
+Route::post('register/send-code', [RegisterController::class, 'sendVerificationCode'])->name('register.sendCode'); // Enviar código
 
+Route::get('register/verify-code', [RegisterController::class, 'showVerifyCodeForm'])->name('register.verifyCode'); // Paso 2
+Route::post('register/verify-code', [RegisterController::class, 'verifyCode'])->name('register.verifyCode.post');
+
+Route::get('register/profile', [RegisterController::class, 'showProfileForm'])->name('register.profile'); // Paso 3
+Route::post('register/profile', [RegisterController::class, 'saveProfile'])->name('register.profile.post');
+
+// Login / Logout
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -27,7 +34,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::view('/about', 'about')->name('about');
 
 // Endpoint para ESP32
-Route::post('/api/sensor-data', [SensorDataController::class, 'store']);
+//Route::post('/api/sensor-data', [SensorDataController::class, 'store']);
 
 // AJAX para charts
 Route::get('/sensor/{sensor_uid}/data', [SensorController::class, 'ajaxData'])->name('sensor.data.ajax');
@@ -46,11 +53,9 @@ Route::get('/export/device/{esp32_id}', function($esp32Id) {
 // Guía IoT unificada
 Route::get('/ejemplos', [SensorInfoController::class, 'catalogo'])->name('ejemplos.index');
 
-// guias 
+// CRUD guías (admin)
 Route::resource('sensores-info', SensorInfoController::class)
     ->only(['index', 'store', 'update', 'destroy']);
-
-
 
 // -------------------- Rutas protegidas --------------------
 Route::middleware('auth')->group(function () {
@@ -62,7 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
     Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
     Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
-    Route::resource('devices', DeviceController::class)->except(['show','edit','update']);
+    Route::resource('devices', DeviceController::class)->except(['show', 'edit', 'update']);
 
     // Perfil
     Route::get('/perfil/edit', [PerfilController::class, 'edit'])->name('perfil.edit');
@@ -73,5 +78,5 @@ Route::middleware('auth')->group(function () {
 
     // CRUD para admin (catálogo de sensores)
     Route::resource('sensores-info', SensorInfoController::class)
-        ->only(['index','create','store','edit','update','destroy']);
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 });
