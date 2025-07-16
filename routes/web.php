@@ -80,10 +80,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('sensores-info', SensorInfoController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-    // Corte de datos general por dispositivo (todos los sensores)
-    Route::get('/datos-por-dia/general', [SensorController::class, 'datosPorDiaGeneral'])
-        ->name('sensor.datos_por_dia.general');
+    Route::get('/datos-por-dia/automatico', [SensorController::class, 'corteAutomatico'])
+        ->name('sensor.corte_automatico');
 
+    Route::get('/export/device-date/{device}/{fecha}', [SensorController::class, 'exportDeviceDate'])
+        ->name('export.device_date');
     
     });
 

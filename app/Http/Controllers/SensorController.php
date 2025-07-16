@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Device;
 use App\Models\Sensor;
 use App\Models\SensorData;
-use App\Models\Device;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SensorController extends Controller
 {
-    // Método para paginación AJAX, lo tienes ya
     public function ajaxData(Request $request, $sensor_uid)
     {
         $sensor = Sensor::where('sensor_uid', $sensor_uid)->firstOrFail();
@@ -30,75 +31,86 @@ class SensorController extends Controller
         return view('sensor.show', compact('sensor', 'datos'));
     }
 
-
-    public function datosPorDiaGeneral(Request $request)
+    public function corteAutomatico()
     {
-        $deviceEsp32Id = $request->query('device');
-        if (!$deviceEsp32Id) {
-            return redirect()->back()->withErrors(['device' => 'Debe seleccionar un dispositivo.']);
+        $userId = Auth::id();
+
+        $devices = Device::where('user_id', $userId)->get();
+
+        if ($devices->isEmpty()) {
+            return view('sensors.corte_automatico', compact('devices'))
+                ->withErrors(['devices' => 'No tienes dispositivos registrados.']);
         }
 
-        $device = Device::where('esp32_id', $deviceEsp32Id)->first();
-        if (!$device) {
-            return redirect()->back()->withErrors(['device' => 'Dispositivo no encontrado.']);
-        }
-
+        $device = $devices->first();
         $sensors = Sensor::where('device_id', $device->_id)->get();
-        if ($sensors->isEmpty()) {
-            return redirect()->back()->withErrors(['device' => 'El dispositivo no tiene sensores asociados.']);
-        }
-
         $sensorIds = $sensors->pluck('_id')->toArray();
 
-        // Obtener fechas únicas de todos sensores del dispositivo
-        $fechasRaw = SensorData::raw(function($collection) use ($sensorIds) {
-            return $collection->aggregate([
-                ['$match' => ['sensor_id' => ['$in' => $sensorIds]]],
-                ['$project' => [
-                    'fecha' => [
-                        '$dateToString' => [
-                            'format' => '%Y-%m-%d',
-                            'date' => ['$toDate' => '$timestamp']
-                        ]
-                    ]
-                ]],
-                ['$group' => ['_id' => '$fecha']],
-                ['$sort' => ['_id' => -1]]
-            ]);
-        });
-
-        $fechas = collect($fechasRaw)->map(fn($item) => \Carbon\Carbon::parse($item->_id));
-
-        $fechaSeleccionada = $request->input('fecha');
-
-        $query = SensorData::whereIn('sensor_id', $sensorIds);
-
-        if ($fechaSeleccionada) {
-            $inicio = \Carbon\Carbon::parse($fechaSeleccionada)->startOfDay();
-            $fin = \Carbon\Carbon::parse($fechaSeleccionada)->endOfDay();
-
-            $query->whereBetween('timestamp', [$inicio, $fin]);
+        if (empty($sensorIds)) {
+            return view('sensors.corte_automatico', compact('devices'))
+                ->withErrors(['sensors' => 'El dispositivo no tiene sensores asociados.']);
         }
 
-        $datos = $query->orderBy('timestamp', 'asc')->paginate(15);
+        $ultimoDato = SensorData::whereIn('sensor_id', $sensorIds)
+                    ->orderBy('timestamp', 'desc')
+                    ->first();
+
+        if (!$ultimoDato) {
+            return view('sensors.corte_automatico', compact('devices'))
+                ->withErrors(['datos' => 'No hay datos registrados aún.']);
+        }
+
+        // Asegurar que timestamp es un objeto Carbon y no un string
+        $timestamp = Carbon::parse($ultimoDato->timestamp);
+        $fechaSeleccionada = $timestamp->copy()->timezone('America/Cancun')->format('Y-m-d');
+
+        // Calcular inicio y fin del día en UTC
+        $inicioUtc = Carbon::createFromFormat('Y-m-d', $fechaSeleccionada, 'America/Cancun')->startOfDay()->setTimezone('UTC');
+        $finUtc    = Carbon::createFromFormat('Y-m-d', $fechaSeleccionada, 'America/Cancun')->endOfDay()->setTimezone('UTC');
+
+        // Buscar datos entre ese rango
+        $datos = SensorData::whereIn('sensor_id', $sensorIds)
+         ->where('timestamp', 'regex', new \MongoDB\BSON\Regex("^{$fechaSeleccionada}"))
+         ->orderBy('timestamp', 'asc')
+         ->paginate(15);
 
 
-
-        \Log::info('Dispositivo seleccionado: ' . $deviceEsp32Id);
-        \Log::info('Fechas disponibles para el dispositivo: ' . $fechas->map(fn($f) => $f->format('Y-m-d'))->implode(', '));
-        \Log::info('Fecha seleccionada: ' . $fechaSeleccionada);
-        \Log::info('Sensores del dispositivo: ' . $sensors->pluck('sensor_uid')->implode(', '));
-        \Log::info('Total datos encontrados para la fecha: ' . $datos->count());
-
-
-
-        return view('sensors.datos_por_dia_general', [
-            'deviceId' => $deviceEsp32Id,
-            'fechas' => $fechas,
-            'datos' => $datos,
-            'fechaSeleccionada' => $fechaSeleccionada,
-            'sensors' => $sensors,
-        ]);
+        return view('sensors.corte_automatico', compact('devices', 'device', 'sensors', 'datos', 'fechaSeleccionada'));
     }
 
+
+    public function exportDeviceDate($deviceEsp32Id, $fechaSeleccionada)
+    {
+        $device    = Device::where('esp32_id', $deviceEsp32Id)->firstOrFail();
+        $sensorIds = Sensor::where('device_id', $device->_id)->pluck('_id')->toArray();
+
+        $inicioUtc = Carbon::parse($fechaSeleccionada, 'America/Cancun')->startOfDay()->setTimezone('UTC');
+        $finUtc    = Carbon::parse($fechaSeleccionada, 'America/Cancun')->endOfDay()->setTimezone('UTC');
+
+        $datos = SensorData::whereIn('sensor_id', $sensorIds)
+                  ->whereBetween('timestamp', [$inicioUtc, $finUtc])
+                  ->orderBy('timestamp', 'asc')
+                  ->get();
+
+        $response = new StreamedResponse(function() use ($datos) {
+            $out = fopen('php://output','w');
+            fputcsv($out, ['Sensor UID','Tipo','Fecha UTC','Fecha Local','Valor']);
+            foreach ($datos as $dato) {
+                $sensor = Sensor::firstWhere('_id', $dato->sensor_id);
+                fputcsv($out, [
+                    $sensor->sensor_uid,
+                    ucfirst($sensor->tipo),
+                    $dato->timestamp->format('Y-m-d H:i:s'),
+                    $dato->timestamp->timezone('America/Cancun')->format('Y-m-d H:i:s'),
+                    $dato->valor ?? $dato->value,
+                ]);
+            }
+            fclose($out);
+        });
+
+        $filename = "corte_{$deviceEsp32Id}_{$fechaSeleccionada}.csv";
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename={$filename}");
+        return $response;
+    }
 }
