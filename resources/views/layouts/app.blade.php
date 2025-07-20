@@ -11,7 +11,7 @@
   {{--  <<<--- ERROR: Faltaba esta línea para que @push('head') funcione --}}
   @stack('head')
 </head>
-<body class="bg-light d-flex flex-column" style="min-height:100vh;">
+<body class="bg-light d-flex flex-column" style="min-height:100vh;"> 
 
   @auth
     @include('layouts.navbar')
@@ -20,7 +20,7 @@
       @include('layouts.sidebar')
 
       <div id="mainContent" class="flex-grow-1">
-        <main class="p-4">
+        <main class="px-2" style="margin-top: 0px;">
           @yield('content')
         </main>
       </div>

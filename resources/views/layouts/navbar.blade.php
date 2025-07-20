@@ -1,9 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
   <div class="container-fluid px-4 d-flex align-items-center">
     <button id="sidebarToggle" class="btn btn-outline-success me-3" type="button">
       <i class="bi bi-list"></i>
     </button>
+
     <a class="navbar-brand fw-bold text-success" href="{{ route('dashboard') }}">SADIoT</a>
+
+    <!-- ✅ BOTÓN PARA MÓVIL -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
       <ul class="navbar-nav align-items-center">
@@ -26,14 +33,20 @@
   </div>
 </nav>
 
+
 <script>
   document.getElementById('sidebarToggle').addEventListener('click', function () {
     const sidebar = document.getElementById('sidebarMenu');
     const mainContent = document.getElementById('mainContent');
 
+    // Para escritorio
     sidebar.classList.toggle('hidden');
     mainContent.classList.toggle('expanded');
+
+    // Para móviles (max-width: 767.98px)
+    sidebar.classList.toggle('show');
   });
 </script>
+
 
 

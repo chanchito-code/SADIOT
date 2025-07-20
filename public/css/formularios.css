@@ -13,7 +13,7 @@ body, html {
 }
 
 .container {
-  padding-top: rem !important;
+  padding-top: 2rem !important;
   padding-bottom: 2rem !important;
   flex-grow: 1;
   width: 100%;
@@ -24,11 +24,12 @@ body, html {
   border-radius: 16px !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border: none !important;
-  max-width: 640px; /* Aumentado para mayor ancho */
-  width: 500px;
+  max-width: 640px; /* Controla el tamaño en desktop */
+  width: 100%;       /* Se adapta al contenedor o pantalla */
   margin: auto;
-  padding: 2rem; /* más espacio interior */
+  padding: 2rem;
 }
+
 
 .card-header {
   background-color: #04874a !important; /* verde institucional */
@@ -98,10 +99,21 @@ body, html {
   .card {
     max-width: 100% !important;
     margin: 0 1rem;
-    padding: 1.5rem;
+    padding: 1.25rem;
+    box-sizing: border-box; /* Asegura que no se desborde */
   }
 
   .card-header {
     font-size: 1.2rem;
+    padding: 1rem;
+  }
+
+  .btn-success {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .form-control {
+    font-size: 1rem;
   }
 }
