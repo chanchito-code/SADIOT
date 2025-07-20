@@ -12,6 +12,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         {{-- Eslogan animado --}}
+
+        {{-- Logo UQROO en navbar --}}
+        <img src="{{ asset('storage/images/f_b.png') }}" alt="Logo UQROO" class="uqroo-logo-navbar">
+
         <div class="animated-tagline-navbar ms-1 me-auto">
             <span class="slogan-button" data-text="Donde hay un sensor, hay una variable que puede ser medida.">
                 <span class="actual-text">&nbsp;Donde hay un sensor, hay una variable que puede ser medida.&nbsp;</span>
@@ -57,7 +61,6 @@
                 </p>
             </div>
             <div class="logo-container">
-                <img src="{{ asset('storage/images/f_b.png') }}" alt="Logo UQROO" class="uqroo-logo">
                 <img src="{{ asset('storage/images/logoOficial.png') }}" alt="Logo UQROO" class="uqroo-logo">
             </div>
         </div>

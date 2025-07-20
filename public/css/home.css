@@ -348,3 +348,187 @@ a:hover {
   width: 100%;
   filter: drop-shadow(0 0 4px var(--animation-color));
 }
+
+
+/* Logo dentro de la navbar */
+.uqroo-logo-navbar {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+
+/* ===============================
+   Punto de quiebre extra: Tablets grandes y hasta laptops pequeñas
+   =============================== */
+@media (max-width: 992px) {
+  /* Hero: menos padding para que no se desborde */
+  .main-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  /* Textos un pelín más pequeños */
+  .text-container h1 {
+    font-size: 2rem;
+  }
+  .text-container p {
+    font-size: 1.2rem;
+  }
+
+  /* Logos en hero: que no superen el 40% de ancho */
+  .logo-container img {
+    max-height: 250px;
+    max-width: 40%;
+  }
+}
+
+/* ===============================
+   Punto de quiebre principal: móviles (≤768px)
+   =============================== */
+@media (max-width: 768px) {
+  /* Hero: padding aún más ajustado */
+  .main-hero {
+    padding: 2rem 1rem;
+  }
+
+  /* Títulos y párrafos más pequeños */
+  .text-container h1 {
+    font-size: 1.8rem;
+  }
+  .text-container p {
+    font-size: 1rem;
+  }
+
+  /* Flex del hero en columna */
+  .logo-text-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Logos: apilados y centrados */
+  .logo-container img {
+    max-height: 180px;
+    max-width: 60%;
+    margin: 0 auto;
+  }
+}
+
+/* ===============================
+   Smartphones muy pequeños (≤480px)
+   =============================== */
+@media (max-width: 480px) {
+  /* Hero: padding mínimo */
+  .main-hero {
+    padding: 1.5rem 0.75rem;
+  }
+
+  /* Aún más pequeño */
+  .text-container h1 {
+    font-size: 1.5rem;
+  }
+  .text-container p {
+    font-size: 0.9rem;
+  }
+
+  /* Ancla animada: ocupe toda la línea */
+  .animated-tagline-navbar {
+    font-size: 0.65rem;
+    padding: 0 0.25rem;
+  }
+
+  /* Navbar: que su contenido pueda envolver */
+  .navbar .container-fluid {
+    flex-wrap: wrap;
+  }
+  .uqroo-logo-navbar {
+    height: 35px;
+    margin-bottom: 0.5rem;
+  }
+}
+/* ===============================
+   Punto de quiebre extra: Tablets grandes y hasta laptops pequeñas
+   =============================== */
+@media (max-width: 992px) {
+  /* Hero: menos padding para que no se desborde */
+  .main-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  /* Textos un pelín más pequeños */
+  .text-container h1 {
+    font-size: 2rem;
+  }
+  .text-container p {
+    font-size: 1.2rem;
+  }
+
+  /* Logos en hero: que no superen el 40% de ancho */
+  .logo-container img {
+    max-height: 250px;
+    max-width: 40%;
+  }
+}
+
+/* ===============================
+   Punto de quiebre principal: móviles (≤768px)
+   =============================== */
+@media (max-width: 768px) {
+  /* Hero: padding aún más ajustado */
+  .main-hero {
+    padding: 2rem 1rem;
+  }
+
+  /* Títulos y párrafos más pequeños */
+  .text-container h1 {
+    font-size: 1.8rem;
+  }
+  .text-container p {
+    font-size: 1rem;
+  }
+
+  /* Flex del hero en columna */
+  .logo-text-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Logos: apilados y centrados */
+  .logo-container img {
+    max-height: 180px;
+    max-width: 60%;
+    margin: 0 auto;
+  }
+}
+
+/* ===============================
+   Smartphones muy pequeños (≤480px)
+   =============================== */
+@media (max-width: 480px) {
+  /* Hero: padding mínimo */
+  .main-hero {
+    padding: 1.5rem 0.75rem;
+  }
+
+  /* Aún más pequeño */
+  .text-container h1 {
+    font-size: 1.5rem;
+  }
+  .text-container p {
+    font-size: 0.9rem;
+  }
+
+  /* Ancla animada: ocupe toda la línea */
+  .animated-tagline-navbar {
+    font-size: 0.65rem;
+    padding: 0 0.25rem;
+  }
+
+  /* Navbar: que su contenido pueda envolver */
+  .navbar .container-fluid {
+    flex-wrap: wrap;
+  }
+  .uqroo-logo-navbar {
+    height: 35px;
+    margin-bottom: 0.5rem;
+  }
+}
