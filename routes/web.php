@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SensorInfoController;
 use App\Exports\SensorDataExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\DataCutController;
 
 // -------------------- Rutas públicas --------------------
 
@@ -50,12 +51,7 @@ Route::get('/export/device/{esp32_id}', function($esp32Id) {
     return Excel::download(new \App\Exports\DeviceSensorsExport($esp32Id), $fileName);
 })->name('export.device')->middleware('auth');
 
-// Guía IoT unificada
-Route::get('/ejemplos', [SensorInfoController::class, 'catalogo'])->name('ejemplos.index');
 
-// CRUD guías (admin)
-Route::resource('sensores-info', SensorInfoController::class)
-    ->only(['index', 'store', 'update', 'destroy']);
 
 // -------------------- Rutas protegidas --------------------
 Route::middleware('auth')->group(function () {
@@ -69,6 +65,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
     Route::resource('devices', DeviceController::class)->except(['show', 'edit', 'update']);
 
+    // Guía IoT unificada
+    Route::get('/ejemplos', [SensorInfoController::class, 'catalogo'])->name('ejemplos.index');
+
+    // CRUD guías (admin)
+    Route::resource('sensores-info', SensorInfoController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
+
+
     // Perfil
     Route::get('/perfil/edit', [PerfilController::class, 'edit'])->name('perfil.edit');
     Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
@@ -80,12 +84,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('sensores-info', SensorInfoController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-    Route::get('/datos-por-dia/automatico', [SensorController::class, 'corteAutomatico'])
-        ->name('sensor.corte_automatico');
+    //Corte de datos
+    Route::get('data-cut', [DataCutController::class, 'index'])
+        ->name('data_cut.index');
+    Route::post('data-cut', [DataCutController::class, 'show'])
+        ->name('data_cut.show');
 
-    Route::get('/export/device-date/{device}/{fecha}', [SensorController::class, 'exportDeviceDate'])
-        ->name('export.device_date');
-    
+    Route::get('data-cut/export', [DataCutController::class, 'export'])
+        ->name('data_cut.export')
+        ->middleware('auth');
+
     });
 
 

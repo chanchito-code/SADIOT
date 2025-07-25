@@ -89,7 +89,7 @@
             <div class="col-md-5 mb-4">
                 <div class="card shadow-sm">
                     <div class="img-container">
-                        <img src="{{ asset('storage/images/user2.png') }}" alt="Desarrollador 2" class="card-img-top centered-img">
+                        <img src="{{ asset('storage/images/jose_luis.jpg') }}" alt="Desarrollador 2" class="card-img-top centered-img">
                     </div>
                     <div class="card-body text-center">
                         <h4 class="card-title">Jose Luis Chavez Zetina</h4>

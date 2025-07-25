@@ -4,10 +4,6 @@
 
 @section('content')
 
-<a href="{{ route('sensor.corte_automatico') }}" class="btn btn-primary">
-  Corte Automático Último Día
-</a>
-
 @if ($errors->any())
   <div class="alert alert-danger">
     <ul class="mb-0">
@@ -21,7 +17,7 @@
 <div class="container-fluid mt-4 px-3 px-md-0">
   @if ($devices->isEmpty())
     <div class="alert alert-warning text-center">
-      ⚠️ Aún no tienes dispositivos registrados.
+      ⚠️ Aún no haz hecho pruebas con sensores.
     </div>
   @else
     @foreach ($devices as $device)
@@ -42,16 +38,6 @@
             <small class="me-2">
               Registrado: {{ $device->created_at->format('d M Y, H:i') }}
             </small>
-
-            <a href="{{ route('export.device', $device->esp32_id) }}"
-               class="btn btn-sm btn-light me-2"
-               onclick="event.stopPropagation();"
-               title="Exportar todos los sensores de este dispositivo"
-               target="_blank"
-               rel="noopener noreferrer">
-              <i class="bi bi-file-earmark-excel"></i>
-            </a>
-
             <i class="bi bi-chevron-down transition-transform" id="icon-device-{{ $device->esp32_id }}"></i>
           </div>
         </div>

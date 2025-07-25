@@ -20,20 +20,22 @@ class SensorDataController extends Controller
             'timestamp'  => 'required|date',
         ]);
 
-        // Buscamos el device
-        $device = Device::where('esp32_id', $data['esp32_id'])->first();
+        // Buscamos el device por esp32_id
+        $device = Device::where('esp32_id', $data['esp32_id'])->firstOrFail();
 
-        // Creamos o actualizamos sensor
+        // Creamos o actualizamos sensor, asegurando siempre el device_id
         $sensor = Sensor::updateOrCreate(
-            ['sensor_uid' => $data['sensor_uid']],
-            ['tipo' => $data['tipo'], 'device_id' => $device->id]
+            ['sensor_uid' => $data['sensor_uid'], 'device_id' => (string) $device->_id],
+            ['tipo'       => $data['tipo']]
         );
 
-        // Grabamos la lectura
+        // Grabamos la lectura, ahora con sensor_id y device_id
         SensorData::create([
-            'sensor_uid' => $sensor->sensor_uid,
-            'valor'      => $data['valor'],
-            'timestamp'  => $data['timestamp'],
+            'sensor_id' => (string) $sensor->_id,
+            'device_id' => (string) $device->_id,
+            'valor'     => $data['valor'],
+            'timestamp' => $data['timestamp'],
+            // 'dia' se rellenará automáticamente en el hook booted()
         ]);
 
         return response()->json(['success' => true], 201);

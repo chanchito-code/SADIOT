@@ -55,6 +55,13 @@ class SensorInfoController extends Controller
         return redirect()->route('ejemplos.index')->with('success', 'Sensor actualizado exitosamente');
     }
 
+    public function destroy($id)
+    {
+        $sensor = SensorInfo::findOrFail($id);
+        $sensor->delete();
+
+        return redirect()->route('ejemplos.index')->with('success', 'Sensor eliminado exitosamente');
+    }
     // Ya no necesitas esto si todo está unificado:
     // public function show($id) {
     //     $sensor = SensorInfo::findOrFail($id);
