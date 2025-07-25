@@ -20,6 +20,13 @@
           <i class="bi bi-cpu me-2"></i> Dispositivos
         </a>
       </li>
+      <li class="nav-item mb-3">
+        <a href="{{ route('data_cut.index') }}"
+          class="nav-link fw-semibold {{ request()->routeIs('data_cut.*') ? 'text-success' : 'text-dark' }}">
+          <i class="bi bi-calendar3 me-2"></i> Corte de Datos
+        </a>
+      </li>
+
 
       <!-- Submenú para Ejemplos -->
       <li class="nav-item mb-3">

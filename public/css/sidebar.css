@@ -19,7 +19,7 @@ html, body {
 /* Sidebar fija bajo navbar */
 #sidebarMenu {
   position: fixed;
-  top: 56px; /* alto navbar, ajusta si usas otro */
+  top: 70px; /* alto navbar, ajusta si usas otro */
   left: 0;
   width: 250px;
   height: calc(100vh - 56px);

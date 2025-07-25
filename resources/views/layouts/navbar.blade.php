@@ -4,7 +4,7 @@
       <i class="bi bi-list"></i>
     </button>
 
-    <a class="navbar-brand fw-bold text-success" href="{{ route('dashboard') }}">SADIoT</a>
+    <img src="{{ asset('storage/images/logoOficial.png') }}" alt="Logo UQROO" class="uqroo-logo">
 
     <!-- ✅ BOTÓN PARA MÓVIL -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -50,3 +50,16 @@
 
 
 
+<style>
+  .uqroo-logo {
+    height: 60px; /* Ajusta este valor según el alto de tu navbar */
+    width: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    .uqroo-logo {
+      height: 30px;
+    }
+  }
+</style>
