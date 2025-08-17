@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
 class DataCutExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
 {
@@ -16,50 +18,52 @@ class DataCutExport implements FromCollection, WithMapping, WithHeadings, Should
     public function __construct(string $deviceId, string $date)
     {
         $this->deviceId = $deviceId;
-        $this->date     = $date; // formato YYYY-MM-DD
+        $this->date     = $date;
     }
 
-    /**
-     * Recoge la colección de lecturas para Excel.
-     */
     public function collection()
     {
         return SensorData::with('sensor')
             ->where('device_id', $this->deviceId)
             ->where('dia', $this->date)
-            ->orderBy('timestamp', 'asc')
+            ->orderBy('sensor_id')
+            ->orderBy('timestamp')
             ->get();
     }
 
-    /**
-     * Mapea cada fila al formato deseado.
-     */
     public function map($row): array
     {
         return [
-            // Hora en local Cancún
-            optional(\Carbon\Carbon::parse($row->timestamp)
-                  ->timezone('America/Cancun'))
-                ->format('H:i:s'),
-            // Sensor UID
+            optional(\Carbon\Carbon::parse($row->timestamp)->timezone('America/Cancun'))->format('H:i:s'),
             optional($row->sensor)->sensor_uid,
-            // Tipo
             ucfirst(optional($row->sensor)->tipo),
-            // Valor
             $row->valor,
         ];
     }
 
-    /**
-     * Encabezados de las columnas.
-     */
     public function headings(): array
     {
+        return ['Hora', 'Sensor UID', 'Tipo', 'Valor'];
+    }
+
+    public function registerEvents(): array
+    {
         return [
-            'Hora',
-            'Sensor UID',
-            'Tipo',
-            'Valor',
+            AfterSheet::class => function(AfterSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                $data  = $this->collection();
+                $currentRow = 2; // empieza después del encabezado
+                $lastSensor = null;
+
+                foreach ($data as $item) {
+                    if ($lastSensor && $lastSensor !== $item->sensor_id) {
+                        // Inserta un salto de página antes de cambiar de sensor
+                        $sheet->setBreak("A{$currentRow}");
+                    }
+                    $lastSensor = $item->sensor_id;
+                    $currentRow++;
+                }
+            },
         ];
     }
 }
