@@ -57,7 +57,7 @@
                           <small>({{ $sensor->sensor_uid }})</small>
                         </span>
 
-                        <a href="{{ route('export.sensor', $sensor->sensor_uid) }}"
+                        <a href="{{ route('export.sensor', $sensor->id) }}"
                            class="btn btn-sm btn-light"
                            title="Exportar datos de este sensor"
                            target="_blank"
