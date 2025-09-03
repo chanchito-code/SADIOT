@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataCutExport;
+use App\Exports\DataCutMultiSheetExport;
 
 class DataCutController extends Controller
 {
@@ -73,9 +74,10 @@ class DataCutController extends Controller
         $fileName = "corte_{$device->esp32_id}_{$date}.xlsx";
 
         return Excel::download(
-            new DataCutExport($deviceId, $date),
-            $fileName
+            new DataCutMultiSheetExport($deviceId, $date),
+            "corte_{$device->esp32_id}_{$date}.xlsx"
         );
+
     }
 
 
