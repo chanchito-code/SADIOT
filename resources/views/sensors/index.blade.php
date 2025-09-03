@@ -117,20 +117,6 @@
       collapseEl.addEventListener('hide.bs.collapse', () =>
         iconEl.classList.add('rotate-180'));
     @endforeach
-
-    // AJAX paginación individual por sensor
-    document.querySelectorAll('.sensor-data-container').forEach(container => {
-      container.addEventListener('click', function(event) {
-        const target = event.target;
-        if (target.tagName === 'A' && target.closest('nav')) {
-          event.preventDefault();
-          fetch(target.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-            .then(r => r.text())
-            .then(html => container.innerHTML = html)
-            .catch(console.error);
-        }
-      });
-    });
   });
 </script>
 @endpush
