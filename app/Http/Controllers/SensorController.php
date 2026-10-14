@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Device;
-use App\Models\Sensor;
-use App\Models\SensorData;
-use Illuminate\Support\Facades\Auth;
 use App\Exports\SensorDataExport;
+use App\Models\Sensor;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SensorController extends Controller
@@ -18,7 +15,7 @@ class SensorController extends Controller
 
         $deviceId = $sensor->device->esp32_id ?? 'unknown_device';
 
-        $pageName = 'page_' . $deviceId . '_' . $sensor_uid;
+        $pageName = 'page_'.$deviceId.'_'.$sensor_uid;
 
         $datos = $sensor->data()
             ->orderBy('timestamp', 'desc')
@@ -35,6 +32,4 @@ class SensorController extends Controller
     {
         return Excel::download(new SensorDataExport($sensor->_id), 'datos_sensor.xlsx');
     }
-
-
 }

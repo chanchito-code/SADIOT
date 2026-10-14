@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
@@ -6,6 +7,7 @@ use MongoDB\Laravel\Eloquent\Model;
 class Device extends Model
 {
     protected $connection = 'mongodb';
+
     protected $collection = 'devices';
 
     protected $fillable = [

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Hash;
 use App\Mail\VerificationCodeMail;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
 {
@@ -22,7 +21,7 @@ class RegisterController extends Controller
     public function sendVerificationCode(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:users,email'
+            'email' => 'required|email|unique:users,email',
         ]);
 
         // Generar código aleatorio de 6 dígitos
@@ -36,15 +35,16 @@ class RegisterController extends Controller
         Mail::to($request->email)->send(new VerificationCodeMail($code));
 
         return redirect()->route('register.verifyCode')
-                         ->with('message', 'Código enviado a ' . $request->email);
+            ->with('message', 'Código enviado a '.$request->email);
     }
 
     /** Paso 3: mostrar formulario para ingresar el código */
     public function showVerifyCodeForm()
     {
-        if (!Session::has('register_email')) {
+        if (! Session::has('register_email')) {
             return redirect()->route('register');
         }
+
         return view('auth.verify-code');
     }
 
@@ -52,7 +52,7 @@ class RegisterController extends Controller
     public function verifyCode(Request $request)
     {
         $request->validate([
-            'code' => 'required|digits:6'
+            'code' => 'required|digits:6',
         ]);
 
         if ((string) Session::get('register_code') === $request->code) {
@@ -67,9 +67,10 @@ class RegisterController extends Controller
     /** Paso 5: mostrar formulario de perfil (usuario + fecha + password) */
     public function showProfileForm()
     {
-        if (!Session::has('register_email')) {
+        if (! Session::has('register_email')) {
             return redirect()->route('register');
         }
+
         return view('auth.register-profile');
     }
 
@@ -77,14 +78,14 @@ class RegisterController extends Controller
     public function saveProfile(Request $request)
     {
         $request->validate([
-            'username'       => 'required|string|min:3|max:100|unique:users,username',
-            'birthdate'      => 'required|date',
-            'password'       => 'required|string|min:8|confirmed',
+            'username' => 'required|string|min:3|max:100|unique:users,username',
+            'birthdate' => 'required|date',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $email = Session::get('register_email');
 
-        $user = new User();
+        $user = new User;
         $user->email = $email;
         $user->username = $request->username;
         $user->birthdate = $request->birthdate;
@@ -99,10 +100,10 @@ class RegisterController extends Controller
         auth()->login($user);
 
         // Diagnóstico: comprobar si el login fue exitoso
-        //dd(
+        // dd(
         //    'Auth check:', auth()->check(),
         //    'User:', auth()->user()
-        //);
+        // );
 
         // Si llegas aquí, redirige al dashboard
         return redirect()->route('dashboard');

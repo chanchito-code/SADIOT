@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exports;
 
 use App\Models\SensorData;
@@ -7,12 +8,13 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 class DataCutMultiSheetExport implements WithMultipleSheets
 {
     protected $deviceId;
+
     protected $date;
 
     public function __construct(string $deviceId, string $date)
     {
         $this->deviceId = $deviceId;
-        $this->date     = $date;
+        $this->date = $date;
     }
 
     public function sheets(): array

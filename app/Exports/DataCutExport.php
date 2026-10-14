@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class DataCutExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
+class DataCutExport implements FromCollection, ShouldQueue, WithHeadings, WithMapping
 {
     protected $deviceId;
+
     protected $date;
 
     public function __construct(string $deviceId, string $date)
     {
         $this->deviceId = $deviceId;
-        $this->date     = $date;
+        $this->date = $date;
     }
 
     public function collection()
@@ -49,9 +49,9 @@ class DataCutExport implements FromCollection, WithMapping, WithHeadings, Should
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $data  = $this->collection();
+                $data = $this->collection();
                 $currentRow = 2; // empieza después del encabezado
                 $lastSensor = null;
 

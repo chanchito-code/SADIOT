@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mongodb'),
+    'default' => env('DB_CONNECTION', 'infra'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => env('DB_SQLITE_DATABASE') ?: database_path('database.sqlite'),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
@@ -42,12 +42,44 @@ return [
             'synchronous' => null,
         ],
 
-        // mongodb+srv://jose>:REMOVED_SECRET@REMOVED_CLUSTER.mongodb.net/dashboard_sensor
+        /*
+        |--------------------------------------------------------------------------
+        | Infrastructure (SQLite) Connection
+        |--------------------------------------------------------------------------
+        |
+        | The application stores its business data in MongoDB (see below), but
+        | Laravel's framework services (queues, cache, sessions, failed jobs)
+        | rely on a relational store. This dedicated SQLite connection keeps
+        | that infrastructure fully isolated from the Mongo data layer.
+        |
+        */
 
-         'mongodb' => [
-            'driver'   => 'mongodb',
-            'dsn'      => env('DB_URI', 'env(DB_URI)'),
-            'database' => env('DB_DATABASE', 'dashboard_sensor'),
+        'infra' => [
+            'driver' => 'sqlite',
+            'url' => env('INFRA_DB_URL'),
+            'database' => env('INFRA_DB_DATABASE') ?: database_path('infra.sqlite'),
+            'prefix' => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'busy_timeout' => null,
+            'journal_mode' => null,
+            'synchronous' => null,
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | MongoDB Connection
+        |--------------------------------------------------------------------------
+        |
+        | Primary datastore for IoT telemetry (devices, sensors, sensor_data and
+        | AI analyses). Credentials must be supplied through the environment so
+        | that no secrets are committed to version control.
+        |
+        */
+
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_URI'),
+            'database' => env('MONGODB_DATABASE', 'dashboard_sensor'),
         ],
 
         'mysql' => [

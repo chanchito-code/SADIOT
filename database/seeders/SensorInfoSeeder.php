@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\SensorInfo;
+use Illuminate\Database\Seeder;
 
 class SensorInfoSeeder extends Seeder
 {

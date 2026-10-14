@@ -11,6 +11,7 @@ class PerfilController extends Controller
     public function edit()
     {
         $user = Auth::user();
+
         return view('perfil.edit', compact('user'));
     }
 
@@ -20,20 +21,20 @@ class PerfilController extends Controller
 
         $request->validate([
             'username' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->_id,
+            'email' => 'required|email|unique:users,email,'.$user->_id,
             'current_password' => 'required|string',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         // Verifica la contraseña actual
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.'])->withInput();
         }
 
         $user->username = $request->username;
         $user->email = $request->email;
 
-        if (!empty($request->password)) {
+        if (! empty($request->password)) {
             $user->password = Hash::make($request->password);
         }
 

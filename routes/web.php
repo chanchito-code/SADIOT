@@ -1,18 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SensorController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
+use App\Exports\SensorDataExport;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataCutController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SensorController;
 use App\Http\Controllers\SensorDashboardController;
 use App\Http\Controllers\SensorDataController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SensorInfoController;
-use App\Exports\SensorDataExport;
+use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Controllers\DataCutController;
 
 // -------------------- Rutas públicas --------------------
 
@@ -35,23 +35,23 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::view('/about', 'about')->name('about');
 
 // Endpoint para ESP32
-//Route::post('/api/sensor-data', [SensorDataController::class, 'store']);
+// Route::post('/api/sensor-data', [SensorDataController::class, 'store']);
 
 // AJAX para charts
 Route::get('/sensor/{sensor_uid}/data', [SensorController::class, 'ajaxData'])->name('sensor.data.ajax');
 
 // Exportaciones
-Route::get('/export/sensor/{sensor}', function($sensorId) {
+Route::get('/export/sensor/{sensor}', function ($sensorId) {
     $fileName = "sensor_{$sensorId}_data.xlsx";
+
     return Excel::download(new SensorDataExport($sensorId), $fileName);
 })->name('export.sensor');
 
-Route::get('/export/device/{esp32_id}', function($esp32Id) {
+Route::get('/export/device/{esp32_id}', function ($esp32Id) {
     $fileName = "device_{$esp32Id}_data.xlsx";
+
     return Excel::download(new \App\Exports\DeviceSensorsExport($esp32Id), $fileName);
 })->name('export.device')->middleware('auth');
-
-
 
 // -------------------- Rutas protegidas --------------------
 Route::middleware('auth')->group(function () {
@@ -72,7 +72,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('sensores-info', SensorInfoController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 
-
     // Perfil
     Route::get('/perfil/edit', [PerfilController::class, 'edit'])->name('perfil.edit');
     Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
@@ -84,7 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('sensores-info', SensorInfoController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-    //Corte de datos
+    // Corte de datos
     Route::get('data-cut', [DataCutController::class, 'index'])
         ->name('data_cut.index');
     Route::post('data-cut', [DataCutController::class, 'show'])
@@ -94,10 +93,7 @@ Route::middleware('auth')->group(function () {
         ->name('data_cut.export')
         ->middleware('auth');
 
-    });
-
-
-
+});
 
 // AJAX
 

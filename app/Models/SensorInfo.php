@@ -1,5 +1,7 @@
 <?php
+
 // app/Models/SensorInfo.php
+
 namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
@@ -7,6 +9,7 @@ use MongoDB\Laravel\Eloquent\Model;
 class SensorInfo extends Model
 {
     protected $connection = 'mongodb';
+
     protected $collection = 'sensor_info';
 
     protected $fillable = [

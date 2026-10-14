@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Device;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -11,8 +12,9 @@ class DeviceController extends Controller
     public function index()
     {
         $devices = Device::where('user_id', Auth::id())
-                         ->orderBy('created_at','desc')
-                         ->paginate(10);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
         return view('devices.index', compact('devices'));
     }
 
@@ -24,23 +26,24 @@ class DeviceController extends Controller
     public function store(Request $req)
     {
         $req->validate([
-            'nombre'   => 'nullable|string|max:255',
+            'nombre' => 'nullable|string|max:255',
         ]);
 
         Device::create([
             'esp32_id' => Str::uuid()->toString(), // Genera UUID automáticamente
-            'nombre'   => $req->nombre,
-            'user_id'  => Auth::id(),
+            'nombre' => $req->nombre,
+            'user_id' => Auth::id(),
         ]);
 
         return redirect()->route('devices.index')
-                         ->with('success','Dispositivo añadido.');
+            ->with('success', 'Dispositivo añadido.');
     }
 
     public function destroy(Device $device)
     {
-        //$this->authorize('delete', $device);
+        // $this->authorize('delete', $device);
         $device->delete();
-        return back()->with('success','Dispositivo eliminado.');
+
+        return back()->with('success', 'Dispositivo eliminado.');
     }
 }

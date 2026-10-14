@@ -1,22 +1,25 @@
 <?php
+
 namespace App\Exports;
 
 use App\Models\SensorData;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class SingleSensorSheetExport implements FromCollection, WithMapping, WithHeadings
+class SingleSensorSheetExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $deviceId;
+
     protected $sensorId;
+
     protected $date;
 
     public function __construct($deviceId, $sensorId, $date)
     {
         $this->deviceId = $deviceId;
         $this->sensorId = $sensorId;
-        $this->date     = $date;
+        $this->date = $date;
     }
 
     public function collection()
@@ -44,4 +47,3 @@ class SingleSensorSheetExport implements FromCollection, WithMapping, WithHeadin
         return ['Hora', 'Sensor UID', 'Tipo', 'Valor'];
     }
 }
-

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Device;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $devices = Device::where('user_id', Auth::id())
-            ->with(['sensors.data' => function($query) {
+            ->with(['sensors.data' => function ($query) {
                 $query->orderBy('timestamp', 'asc');
             }])
             ->get();
@@ -32,14 +31,14 @@ class DashboardController extends Controller
                     $fechaMes = Carbon::parse($registro->timestamp)->format('Y-m');
 
                     // Agrupar por día
-                    if (!isset($groupedData[$tipo]['daily'][$fechaDia])) {
+                    if (! isset($groupedData[$tipo]['daily'][$fechaDia])) {
                         $groupedData[$tipo]['daily'][$fechaDia] = ['total' => 0, 'count' => 0];
                     }
                     $groupedData[$tipo]['daily'][$fechaDia]['total'] += $registro->valor;
                     $groupedData[$tipo]['daily'][$fechaDia]['count']++;
 
                     // Agrupar por mes
-                    if (!isset($groupedData[$tipo]['monthly'][$fechaMes])) {
+                    if (! isset($groupedData[$tipo]['monthly'][$fechaMes])) {
                         $groupedData[$tipo]['monthly'][$fechaMes] = ['total' => 0, 'count' => 0];
                     }
                     $groupedData[$tipo]['monthly'][$fechaMes]['total'] += $registro->valor;

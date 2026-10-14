@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
@@ -6,7 +7,9 @@ use MongoDB\Laravel\Eloquent\Model;
 class Sensor extends Model
 {
     protected $connection = 'mongodb';
+
     protected $collection = 'sensors';
+
     protected $fillable = ['sensor_uid', 'tipo', 'meta', 'device_id'];
 
     public function data()

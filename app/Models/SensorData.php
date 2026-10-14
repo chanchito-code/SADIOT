@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use MongoDB\Laravel\Eloquent\Model;
 
 class SensorData extends Model
 {
     protected $connection = 'mongodb';
+
     protected $collection = 'sensor_data';
 
     // Incluimos 'dia' en fillable
@@ -37,8 +38,8 @@ class SensorData extends Model
             if ($model->timestamp) {
                 // timestamp viene como Carbon gracias al driver
                 $model->dia = Carbon::parse($model->timestamp)
-                                    ->timezone('America/Cancun')
-                                    ->format('Y-m-d');
+                    ->timezone('America/Cancun')
+                    ->format('Y-m-d');
             }
         });
     }

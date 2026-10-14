@@ -4,10 +4,10 @@ namespace App\Exports;
 
 use App\Models\Sensor;
 use App\Models\SensorData;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Illuminate\Support\Collection;
-use Carbon\Carbon;
 use MongoDB\BSON\UTCDateTime as MongoUTC;
 
 class SensorDataExport implements FromCollection, WithHeadings
@@ -23,8 +23,8 @@ class SensorDataExport implements FromCollection, WithHeadings
     {
         // Intentar buscar sensor por sensor_uid o por _id (string)
         $sensor = Sensor::where('sensor_uid', $this->identifier)
-                        ->orWhere('_id', $this->identifier)
-                        ->first();
+            ->orWhere('_id', $this->identifier)
+            ->first();
 
         // Si encontramos sensor, intentar buscar sensor_data que referencien su _id o sensor_uid
         if ($sensor) {
@@ -32,22 +32,22 @@ class SensorDataExport implements FromCollection, WithHeadings
             $sensorKeyString = (string) $sensorKey;
             $sensorUid = $sensor->sensor_uid ?? null;
 
-            $rows = SensorData::where(function($q) use ($sensorKey, $sensorKeyString, $sensorUid) {
+            $rows = SensorData::where(function ($q) use ($sensorKey, $sensorKeyString, $sensorUid) {
                 $q->where('sensor_id', $sensorKey)
-                  ->orWhere('sensor_id', $sensorKeyString);
+                    ->orWhere('sensor_id', $sensorKeyString);
 
                 if ($sensorUid) {
                     $q->orWhere('sensor_id', $sensorUid)
-                      ->orWhere('sensor_uid', $sensorUid);
+                        ->orWhere('sensor_uid', $sensorUid);
                 }
             })->orderBy('timestamp', 'asc')->get();
         } else {
             // Si no hay sensor, asumimos que el identificador podría ser el sensor_id guardado en los documentos
             $id = $this->identifier;
             $rows = SensorData::where('sensor_id', $id)
-                              ->orWhere('sensor_uid', $id)
-                              ->orderBy('timestamp', 'asc')
-                              ->get();
+                ->orWhere('sensor_uid', $id)
+                ->orderBy('timestamp', 'asc')
+                ->get();
         }
 
         return $rows->map(function ($row) {
@@ -76,13 +76,13 @@ class SensorDataExport implements FromCollection, WithHeadings
 
             return [
                 'Fecha y hora' => $carbon->format('Y-m-d H:i:s'),
-                'Valor'        => $valor,
+                'Valor' => $valor,
             ];
         });
     }
 
     public function headings(): array
     {
-        return ['Fecha y hora','Valor'];
+        return ['Fecha y hora', 'Valor'];
     }
 }

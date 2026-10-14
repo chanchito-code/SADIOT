@@ -11,6 +11,7 @@ class SensorInfoController extends Controller
     public function catalogo()
     {
         $sensores = SensorInfo::all();
+
         return view('ejemplos.index', compact('sensores'));
     }
 
@@ -18,6 +19,7 @@ class SensorInfoController extends Controller
     public function index()
     {
         $sensores = SensorInfo::all();
+
         return view('admin.sensores.index', compact('sensores'));
     }
 
